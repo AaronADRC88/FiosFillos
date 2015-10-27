@@ -1,7 +1,8 @@
 package fiosfillos;
 
 public class Fios extends Thread {
-    //El contador aqui para que no se reinicie cada vez qe se ejecuta el run de un nuevo hilo
+
+    //Con este contador delimitaremos a creación de fios ata 5
     static int contador = 0;
 
     public Fios() {
@@ -9,25 +10,25 @@ public class Fios extends Thread {
     }
 
     @Override
+    //O método run herdado de Thread é onde iniciase o fio principal e os seus fios fillos 
     public void run() {
-        
         while (contador < 5) {
             contador++;
             try {
+                //O fio principal imprime por pantalla 10 veces
                 for (int i = 0; i < 10; i++) {
                     System.out.println(i + " " + getName());
 
                 }
-                
+                //Aqui faise unha pausa de medio segundo e comeza a execucion dos fios fillos
                 Thread.sleep(500);
-                if (contador <= 5) {
-                    Thread fio = new Fios();
-                    fio.start();
-                    fio.join();
-                }
-                //El hilo realmente termina aqui por que el join() lo unico que hace es esperar a que termine el hilo hijo
+                Thread fio = new Fios();
+                fio.start();
+                fio.join();
+
+                //Ao rematares a execución de todolos fios confirmase cunha mensaxe
                 System.out.println("Termina thread " + getName());
-                
+
             } catch (InterruptedException ie) {
                 System.out.println("erro " + ie);
             }
